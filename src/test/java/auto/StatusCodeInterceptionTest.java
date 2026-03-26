@@ -34,7 +34,7 @@ public class StatusCodeInterceptionTest {
     }
 
     @Test
-    public void testMockedStatusCode(){
+     void testMockedStatusCode(){
         AtomicBoolean checkStatus = new AtomicBoolean(false);
 
         // Настройка перехвата ответа на запрос
