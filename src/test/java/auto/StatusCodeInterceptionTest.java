@@ -52,7 +52,7 @@ public class StatusCodeInterceptionTest {
             int status = response.status();
 
             if (url.contains("/status_codes/404")) {
-                System.out.println("Получен ответ для /status_codes/404: статус " + status);
+                System.out.println("Response for: /status_codes/404: статус " + status);
                 if (status == 200) {
                     checkStatus.set(true);
                 }
