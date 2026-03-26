@@ -1,0 +1,61 @@
+name: Run Tests
+# Триггеры: запуск при push и pull request для непрерывной интеграции
+on: [push, pull_request]
+
+jobs:
+  test:
+    # Запуск на последней версии Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      # Шаг 1: Получение кода из репозитория
+      - uses: actions/checkout@v4
+
+      # Шаг 2: Очистка кэша Maven для предотвращения конфликтов зависимостей
+      - name: Clean Maven cache
+        run: mvn dependency:purge-local-repository
+
+      # Шаг 3: Кэширование Maven-зависимостей для ускорения сборок
+      # Ключ кэша зависит от хэша pom.xml - кэш обновляется при изменении зависимостей
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('pom.xml') }}
+
+      # Шаг 4: Кэширование браузеров Playwright для ускорения установки
+      # Ключ зависит от ОС (Ubuntu в данном случае)
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}
+
+      # Шаг 5: Установка Java 17 (Temurin distribution - популярный дистрибутив OpenJDK)
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # Шаг 6: Разрешение зависимостей Maven без запуска тестов
+      - name: Resolve dependencies
+        run: mvn install -DskipTests
+
+      # Шаг 7: Установка браузера Chromium для Playwright
+      # Устанавливается только Chromium для экономии времени и места
+      - name: Install Playwright browsers
+        run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install chromium"
+
+      # Шаг 8: Запуск конкретного тестового класса ExampleTest
+      - name: Run tests
+        run: mvn test -Dtest=ExampleTest
+
+      # Шаг 9: Загрузка результатов тестов как артефакт
+      # Выполняется всегда (даже если тесты упали) для отладки
+      # Сохраняет отчеты Surefire в артефакт с именем "test-results"
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/surefire-reports/
