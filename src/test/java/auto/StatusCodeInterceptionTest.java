@@ -46,7 +46,7 @@ public class StatusCodeInterceptionTest {
             );
         });
 
-        // Подписка на события ответов
+        // Подписка на события ответа
         context.onResponse(response -> {
             String url = response.request().url();
             int status = response.status();
