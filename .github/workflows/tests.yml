@@ -62,7 +62,7 @@ jobs:
 
       # Шаг 10: Запуск конкретного тестового класса ExampleTest
       - name: Run tests
-        run: mvn test -Dtest=StatusCodeInterceptionTest
+        run: mvn test -Dtest=SimpleInterceptionTest
 
       # Шаг 11: Загрузка результатов тестов как артефакт
       # Выполняется всегда (даже если тесты упали) для отладки
