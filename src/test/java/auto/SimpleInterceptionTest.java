@@ -29,6 +29,7 @@ public class SimpleInterceptionTest {
     void simpleInterceptionTest() {
         // Переменная для хранения логов
         StringBuilder consoleLogs = new StringBuilder();
+
         // 1. Настраиваем перехват
         page.route("**/authenticate", route -> {
             System.out.println("Запрос перехвачен!");
