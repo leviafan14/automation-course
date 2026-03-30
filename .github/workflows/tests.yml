@@ -96,12 +96,12 @@ jobs:
         # Загрузка результатов тестов как артефакт
         # Выполняется всегда (даже если тесты упали) для отладки
         # Сохраняет отчёты Surefire в артефакт с именем "test-results"
-        - name: Upload test results
-          if: always()
-          uses: actions/upload-artifact@v4
-          with:
-            name: test-results
-            path: target/surefire-reports/
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/surefire-reports/
 
       # Шаг 10: Запуск конкретного тестового класса
       - name: Run tests
