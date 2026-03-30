@@ -58,13 +58,56 @@ jobs:
       # Шаг 9: Установка конкретного браузера Chromium через Maven (дополнительно)
       - name: Install Chromium via Maven (optional)
         run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install chromium"
-        # Примечание: обычно достаточно шага выше (npx playwright install)
 
-      # Шаг 10: Запуск конкретного тестового класса ExampleTest
+      # Настройка директорий для артефактов
+      - name: Create artifact directories
+        run: |
+          mkdir -p screenshots/videos
+          echo "Directories created for screenshots and videos"
+
+      #  Запуск тестов с записью видео и скриншотов
+      - name: Run tests with video recording and screenshots
+        env:
+          PLAYWRIGHT_VIDEO_DIR: videos/
+          PLAYWRIGHT_SCREENSHOT_DIR: screenshots/
+          run: mvn test -Dtest=SimpleInterceptionTest
+          # Переменные окружения:
+          # PLAYWRIGHT_VIDEO_DIR — директория для записи видео тестов
+          # PLAYWRIGHT_SCREENSHOT_DIR — директория для сохранения скриншотов
+
+      # Загрузка видео как артефакт
+      - name: Upload video recordings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-videos
+          path: videos/
+          retention-days: 7
+
+      # Загрузка скриншотов как артефакт
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screenshots
+          path: screenshots/
+          retention-days: 7
+
+        # Загрузка результатов тестов как артефакт
+        # Выполняется всегда (даже если тесты упали) для отладки
+        # Сохраняет отчёты Surefire в артефакт с именем "test-results"
+        - name: Upload test results
+          if: always()
+          uses: actions/upload-artifact@v4
+          with:
+            name: test-results
+            path: target/surefire-reports/
+
+      # Шаг 10: Запуск конкретного тестового класса
       - name: Run tests
         run: mvn test -Dtest=SimpleInterceptionTest
 
-      # Шаг 11: Загрузка результатов тестов как артефакт
+      #  Загрузка результатов тестов как артефакт
       # Выполняется всегда (даже если тесты упали) для отладки
       # Сохраняет отчёты Surefire в артефакт с именем "test-results"
       - name: Upload test results
