@@ -99,10 +99,10 @@ public class CartTest {
     }
 
 
-
     @AfterEach
     void teardown() {
         context.close();
+        playwright.close();
     }
 
 }
