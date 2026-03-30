@@ -23,7 +23,7 @@ public class CartTest {
     @BeforeEach
     void setup() throws IOException {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = playwright.chromium().launch();
 
         // Создаём директорию с текущей датой/временем
         timestampDir = Paths.get(LocalDateTime.now().format(
