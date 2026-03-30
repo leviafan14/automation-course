@@ -25,7 +25,7 @@ public class CartTest {
         playwright = Playwright.create();
         browser = playwright.chromium().launch();
 
-        // Создаём директорию с текущей датой/временем
+        // Создание директории с текущей датой/временем
         timestampDir = Paths.get(LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")));
         Path videoPath = Path.of(timestampDir + "/" + VIDEOS_DIR );
@@ -46,7 +46,7 @@ public class CartTest {
         Boolean isAdded = false;
         // Флаг проверки удаления товара из корзины
         Boolean isDeleted = false;
-        // Добавление товара
+        // Добавление товара в корзину
         page.getByText("Add Element").click();
 
         // Скриншот при добавлении в корзину
@@ -54,7 +54,7 @@ public class CartTest {
                 .setPath(getArtifactPath("cart_after_add.png")));
 
         Locator deleteButtons = page.getByText("Delete");
-        // Ждём появления хотя бы одной кнопки
+        // Ожидание появления хотя бы одной кнопки Delete
         deleteButtons.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
 
         // Получение количества кнопок Delete на экране
