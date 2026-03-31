@@ -115,7 +115,7 @@ public class CartTest {
             // Проверка, что товар добавлен в корзину
             assertTrue(isAdded, "Товар не добавлен в корзину");
 
-            // Удаление товара
+            // Удаление товара из корзины
             deleteButtons.first().click();
             // Ожидание стабилизации страницы
             page.waitForLoadState(LoadState.DOMCONTENTLOADED);
