@@ -42,7 +42,7 @@ public class CartTest {
         );
 
         // Путь к эталонному скриншоту
-        Path expectedPath = Paths.get("expected.png");
+        Path expectedPath = Paths.get("visual-regress/expected.png");
 
         // Сравнение скриншотов через Files.mismatch()
         long mismatch = Files.mismatch(actualPath, expectedPath);
