@@ -3,7 +3,6 @@ package auto;
 import com.microsoft.playwright.*;
 
 import com.microsoft.playwright.options.ScreenshotAnimations;
-import com.microsoft.playwright.options.ViewportSize;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
@@ -81,7 +80,7 @@ public class CartTest {
             } catch (IOException e) {
                 throw new IOException("Ошибка при создании diff-файла: " + e.getMessage(), e);
             }
-            // Утверждение выполняется ПОСЛЕ создания diff.png
+
             assertThat(mismatch)
                     .as("Обнаружены различия между скриншотами. Diff-файл: " + diffPath)
                     .isEqualTo(-1);
