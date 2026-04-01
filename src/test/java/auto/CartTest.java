@@ -40,6 +40,7 @@ public class CartTest {
                 .setPath(actualPath)
                 .setFullPage(true)
         );
+
         // Путь к эталонному скриншоту
         Path expectedPath = Paths.get("expected.png");
 
