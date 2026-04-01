@@ -76,10 +76,10 @@ jobs:
       # Если expected.png ещё не существует, он будет создан при первом успешном запуске
       - name: Prepare expected screenshot
         run: |
-          mkdir -p visual-regress
+          mkdir -p visual-regression
           if [ -f "expected.png" ]; then
-            cp expected.png visual-regress/expected.png
-            echo "Expected screenshot copied to visual-regress/"
+            cp expected.png visual-regression/expected.png
+            echo "Expected screenshot copied to visual-regression/"
           else
             echo "Expected screenshot not found — will be created after first successful test run"
           fi
@@ -95,7 +95,7 @@ jobs:
         with:
           name: visual-regression-artifacts
           path: |
-            visual-regress/
+            visual-regression/
             target/surefire-reports/
           retention-days: 7
 
