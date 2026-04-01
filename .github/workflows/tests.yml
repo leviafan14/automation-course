@@ -72,13 +72,6 @@ jobs:
       - name: Install Playwright with system dependencies
         run: npx playwright install --with-deps
 
-      # Новый шаг: Очистка и подготовка директории артефактов
-      - name: Clean and prepare artifacts directory
-        run: |
-          rm -rf visual-regression/
-          mkdir -p visual-regression
-          echo "Artifacts directory prepared: visual-regression/"
-
       # Шаг 10: Подготовка эталонного скриншота
       - name: Prepare expected screenshot
         run: |
