@@ -86,7 +86,7 @@ jobs:
 
       # Шаг 11: Запуск теста визуальной регрессии
       - name: Run visual regression test
-        run: mvn test -Dtest=testHomePageVisual
+        run: mvn test -Dtest=CartTest#testHomePageVisual
 
       # Шаг 12: Загрузка артефактов (актуальный скриншот, diff, отчёт)
       - name: Upload test artifacts
