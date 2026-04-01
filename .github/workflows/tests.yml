@@ -95,7 +95,7 @@ jobs:
         with:
           name: visual-regression-artifacts
           path: |
-            visual-regression/
+            visual-regress/
             target/surefire-reports/
           retention-days: 7
 
