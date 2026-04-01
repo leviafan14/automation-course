@@ -1,10 +1,11 @@
-name: Run Tests
+name: Visual Regression Test
 
-# Триггеры: запуск при push и pull request для непрерывной интеграции
+
+# Триггеры: запуск при push и pull request
 on: [push, pull_request]
 
 jobs:
-  test:
+  visual-regression:
     # Запуск на последней версии Ubuntu
     runs-on: ubuntu-latest
 
@@ -12,96 +13,91 @@ jobs:
       # Шаг 1: Получение кода из репозитория
       - uses: actions/checkout@v4
 
-      # Шаг 2: Установка Node.js (необходим для Playwright)
+      # Шаг 2: Установка системных зависимостей для Playwright на Ubuntu
+      - name: Install system dependencies for Playwright
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 \
+            libatk-bridge2.0-0 \
+            libdrm2 \
+            libxkbcommon0 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxrandr2 \
+            libxfixes3 \
+            libxcursor1 \
+            libxss1 \
+            libxtst6 \
+            libpangocairo-1.0-0 \
+            libatk1.0-0 \
+            libgtk-3-0
+
+      # Шаг 3: Установка Node.js (необходим для Playwright)
       - name: Set up Node.js for Playwright
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Актуальная LTS-версия Node.js
+          node-version: '18'
 
-      # Шаг 3: Очистка кэша Maven для предотвращения конфликтов зависимостей
-      - name: Clean Maven cache
-        run: mvn dependency:purge-local-repository
-
-      # Шаг 4: Кэширование Maven‑зависимостей для ускорения сборок
-      # Ключ кэша зависит от хэша pom.xml — кэш обновляется при изменении зависимостей
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: maven-${{ hashFiles('pom.xml') }}
-
-      # Шаг 5: Кэширование браузеров Playwright для ускорения установки
-      # Ключ зависит от ОС (Ubuntu в данном случае)
-      - name: Cache Playwright browsers
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}
-
-      # Шаг 6: Установка Java 17 (Temurin distribution — популярный дистрибутив OpenJDK)
+      # Шаг 4: Установка Java 17
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      # Шаг 7: Разрешение зависимостей Maven без запуска тестов
+      # Шаг 5: Очистка кэша Maven
+      - name: Clean Maven cache
+        run: mvn dependency:purge-local-repository
+
+      # Шаг 6: Кэширование Maven‑зависимостей
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('pom.xml') }}
+
+      # Шаг 7: Кэширование браузеров Playwright
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}
+
+      # Шаг 8: Разрешение зависимостей Maven без запуска тестов
       - name: Resolve dependencies
         run: mvn install -DskipTests
 
-      # Шаг 8: Установка Playwright с системными зависимостями
+      # Шаг 9: Установка Playwright с системными зависимостями
       - name: Install Playwright with system dependencies
         run: npx playwright install --with-deps
-        # Эта команда:
-        # - устанавливает браузеры Playwright (Chromium, Firefox, WebKit)
-        # - автоматически устанавливает недостающие системные библиотеки
-        # - решает ошибку "Host system is missing dependencies"
 
-      # Шаг 9: Настройка директорий для артефактов
-      - name: Create artifact directories
+      # Шаг 10: Подготовка эталонного скриншота
+      # Если expected.png ещё не существует, он будет создан при первом успешном запуске
+      - name: Prepare expected screenshot
         run: |
-          mkdir -p test-artifacts
-          echo "Directories created for test artifacts"
+          mkdir -p visual-regression
+          if [ -f "expected.png" ]; then
+            cp expected.png visual-regression/expected.png
+            echo "Expected screenshot copied to visual-regression/"
+          else
+            echo "Expected screenshot not found — will be created after first successful test run"
+          fi
 
-      # Шаг 10: Запуск тестов с записью видео и скриншотов
-      - name: Run tests with video recording and screenshots
-        env:
-          PLAYWRIGHT_VIDEO_DIR: test-artifacts/videos/
-          PLAYWRIGHT_SCREENSHOT_DIR: screenshots/
-        run: mvn test -Dtest=CartTest
-        # Переменные окружения:
-        # PLAYWRIGHT_VIDEO_DIR — директория для записи видео тестов
-        # PLAYWRIGHT_SCREENSHOT_DIR — директория для сохранения скриншотов
+      # Шаг 11: Запуск теста визуальной регрессии
+      - name: Run visual regression test
+        run: mvn test -Dtest=testHomePageVisual
 
-      # Шаг 11: Загрузка видео как артефакт
-      - name: Upload video recordings
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-videos
-          path: videos/
-          retention-days: 7
-
-      # Шаг 12: Загрузка скриншотов как артефакт
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-screenshots
-          path: screenshots/
-          retention-days: 7
-
-      # Шаг 13: Загрузка результатов тестов как артефакт
-      # Выполняется всегда (даже если тесты упали) для отладки
-      # Сохраняет отчёты Surefire в артефакт с именем "test-results"
+      # Шаг 12: Загрузка артефактов (актуальный скриншот, diff, отчёт)
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-artifacts
-          path: | 
-            test-artifacts/
-            allure-results/
+          name: visual-regression-artifacts
+          path: |
+            visual-regression/
+            target/surefire-reports/
           retention-days: 7
+
 
 
