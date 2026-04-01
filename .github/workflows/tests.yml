@@ -78,8 +78,8 @@ jobs:
         run: |
           mkdir -p visual-regress
           if [ -f "expected.png" ]; then
-            cp expected.png visual-regression/expected.png
-            echo "Expected screenshot copied to visual-regression/"
+            cp expected.png visual-regress/expected.png
+            echo "Expected screenshot copied to visual-regress/"
           else
             echo "Expected screenshot not found — will be created after first successful test run"
           fi
@@ -93,7 +93,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-regress-artifacts
+          name: visual-regression-artifacts
           path: |
             visual-regress/
             target/surefire-reports/
