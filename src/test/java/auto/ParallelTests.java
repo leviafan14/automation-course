@@ -16,7 +16,7 @@ class ParallelTests {
         playwright = Playwright.create();
         System.out.println("Playwright initialized (Thread: " + Thread.currentThread().getId() + ")");
     }
-
+    // Для каждого теста создается отдельный playwright
     @Test
     void testLoginPage() {
         try (Playwright localPlaywright = Playwright.create()) {
@@ -60,7 +60,6 @@ class ParallelTests {
     static void closePlaywright() {
         if (playwright != null) {
             playwright.close();
-            System.out.println("Playwright closed (Thread: " + Thread.currentThread().getId() + ")");
         }
     }
 }
