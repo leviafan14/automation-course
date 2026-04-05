@@ -1,47 +1,60 @@
 package auto;
-
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @Execution(ExecutionMode.CONCURRENT)
-public class ParallelTests {
+class ParallelTests {
 
     private static Playwright playwright;
 
     @BeforeAll
     static void createPlaywright() {
         playwright = Playwright.create();
-        System.out.println("Playwright initialized");
+        System.out.println("Playwright initialized (Thread: " + Thread.currentThread().getId() + ")");
     }
 
     @Test
     void testLoginPage() {
-        try (Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-             BrowserContext context = browser.newContext();
-             Page page = context.newPage()) {
+        try (Playwright localPlaywright = Playwright.create()) {
+            try (Browser browser = localPlaywright.chromium().launch(
+                    new BrowserType.LaunchOptions().setHeadless(false))) {
+                try (BrowserContext context = browser.newContext()) {
+                    Page page = context.newPage();
 
-            page.navigate("https://the-internet.herokuapp.com/login");
-            assertEquals("The Internet", page.title(), "Заголовок страницы не соответствует ожидаемому");
-            System.out.println("Тест 1 (Login Page) пройден успешно");
+                    System.out.println("Тест 1 (Login Page) запущен в потоке: " + Thread.currentThread().getId());
+
+                    page.navigate("https://the-internet.herokuapp.com/login");
+                    assertEquals("The Internet", page.title(),
+                            "Заголовок страницы не соответствует ожидаемому");
+
+                }
+            }
         }
     }
 
     @Test
     void testAddRemoveElements() {
-        try (Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-             BrowserContext context = browser.newContext();
-             Page page = context.newPage()) {
+        try (Playwright localPlaywright = Playwright.create()) {
+            try (Browser browser = localPlaywright.chromium().launch(
+                    new BrowserType.LaunchOptions().setHeadless(false))) {
+                try (BrowserContext context = browser.newContext()) {
+                    Page page = context.newPage();
 
-            page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
-            page.click("button:text('Add Element')");
-            page.waitForSelector("button.added-manually");
-            assertTrue(page.isVisible("button.added-manually"), "Элемент не появился на странице после клика");
-            System.out.println("Тест 2 (Add/Remove Elements) пройден успешно");
+                    System.out.println("Тест 2 (Add/Remove Elements) запущен в потоке: " + Thread.currentThread().getId());
+
+                    page.navigate("https://the-internet.herokuapp.com/add_remove_elements/");
+                    page.click("button:text('Add Element')");
+                    page.waitForSelector("button.added-manually",
+                            new Page.WaitForSelectorOptions().setTimeout(5000));
+                    assertTrue(page.isVisible("button.added-manually"),
+                            "Элемент не появился после клика по кнопке 'Add Element'");
+
+                }
+            }
         }
     }
 
@@ -49,9 +62,10 @@ public class ParallelTests {
     static void closePlaywright() {
         if (playwright != null) {
             playwright.close();
-            System.out.println("Playwright closed");
+            System.out.println("Playwright closed (Thread: " + Thread.currentThread().getId() + ")");
         }
     }
 }
+
 
 
