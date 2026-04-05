@@ -20,8 +20,7 @@ class ParallelTests {
     @Test
     void testLoginPage() {
         try (Playwright localPlaywright = Playwright.create()) {
-            try (Browser browser = localPlaywright.chromium().launch(
-                    new BrowserType.LaunchOptions().setHeadless(false))) {
+            try (Browser browser = localPlaywright.chromium().launch()) {
                 try (BrowserContext context = browser.newContext()) {
                     Page page = context.newPage();
 
@@ -39,8 +38,7 @@ class ParallelTests {
     @Test
     void testAddRemoveElements() {
         try (Playwright localPlaywright = Playwright.create()) {
-            try (Browser browser = localPlaywright.chromium().launch(
-                    new BrowserType.LaunchOptions().setHeadless(false))) {
+            try (Browser browser = localPlaywright.chromium().launch()) {
                 try (BrowserContext context = browser.newContext()) {
                     Page page = context.newPage();
 

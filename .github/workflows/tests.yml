@@ -1,11 +1,11 @@
-name: Visual Regression Test
+name: Run Tests Parallel
 
 
 # Триггеры: запуск при push и pull request
 on: [push, pull_request]
 
 jobs:
-  visual-regression:
+  parallel-test:
     # Запуск на последней версии Ubuntu
     runs-on: ubuntu-latest
 
