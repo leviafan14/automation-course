@@ -75,7 +75,7 @@ jobs:
 
       # Шаг 10: Запуск теста
       - name: Run visual regression test
-        run: mvn test -Dtest=ParallelTests
+        run: mvn test -Dtest=ParallelNavigationTests
 
 
 
