@@ -98,7 +98,6 @@ public class CheckboxTest {
                     "png"
             );
         } catch (Exception ignored) {
-            // Игнорируем ошибки при создании скриншота
         } finally {
             context.close();
             browser.close();

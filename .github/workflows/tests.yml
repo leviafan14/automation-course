@@ -1,6 +1,5 @@
 name: Run Tests Parallel
 
-
 # Триггеры: запуск при push и pull request
 on: [push, pull_request]
 
@@ -72,10 +71,30 @@ jobs:
       - name: Install Playwright with system dependencies
         run: npx playwright install --with-deps
 
+      # Шаг 10: Запуск теста и генерация результатов Allure
+      - name: Run visual regression test and generate Allure results
+        run: mvn test -Dtest=CheckboxTest -Dallure.report.directory=target/allure-results
 
-      # Шаг 10: Запуск
-      - name: Run visual regression test
-        run: mvn test -Dtest=ParallelNavigationTest
+      # Шаг 11: Генерация Allure-отчёта из результатов
+      - name: Generate Allure report
+        run: |
+          mvn allure:serve
+          allure generate target/allure-results --clean -o target/allure-report
+        env:
+          JAVA_HOME: /opt/hostedtoolcache/Java_23/x64
+
+      # Шаг 12: Архивирование отчёта для сохранения как артефакта
+      - name: Archive Allure report
+        run: zip -r allure-report.zip target/allure-report/*
+
+      # Шаг 13: Сохранение отчёта как артефакта GitHub Actions
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report.zip
+          retention-days: 30 # Хранение артефакта 30 дней
+
 
 
 
