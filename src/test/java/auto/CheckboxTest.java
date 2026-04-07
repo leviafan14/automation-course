@@ -59,6 +59,7 @@ public class CheckboxTest {
 
     @Step("Изменение состояния чекбоксов")
     private void toggleCheckboxes() {
+
         // Отмечаем первый чекбокс
         page.locator("input[type='checkbox']:first-child").check();
         Allure.step("Первый чекбокс отмечен");
@@ -83,7 +84,7 @@ public class CheckboxTest {
     @Step("Закрытие ресурсов")
     void tearDown() {
         try {
-            // Делаем скриншот при любом исходе теста для отчёта Allure
+            //Скриншот при любом исходе теста для отчёта
             byte[] screenshotBytes = page.screenshot(
                     new Page.ScreenshotOptions()
                             .setFullPage(true)
