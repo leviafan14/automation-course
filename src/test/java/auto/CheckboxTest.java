@@ -29,8 +29,8 @@ public class CheckboxTest {
     }
 
     @Test
-    @Story("Проверка работы чекбоксов")
-    @DisplayName("Тестирование выбора/снятия чекбоксов")
+    @Story("Проверка чекбоксов")
+    @DisplayName("Тесты выбора/снятия чекбоксов")
     @Severity(SeverityLevel.CRITICAL)
     void testCheckboxes() {
         navigateToCheckboxesPage();

@@ -73,7 +73,7 @@ jobs:
         run: npx playwright install --with-deps
 
 
-      # Шаг 10: Запуск теста
+      # Шаг 10: Запуск
       - name: Run visual regression test
         run: mvn test -Dtest=ParallelNavigationTest
 
