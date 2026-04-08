@@ -1,4 +1,4 @@
-name: Run Allure & ExtentReports Test
+name: Run Allure and ExtentReports Test
 
 on: [push, pull_request]
 

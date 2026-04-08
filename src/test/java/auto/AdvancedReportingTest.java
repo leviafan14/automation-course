@@ -64,9 +64,9 @@ public class AdvancedReportingTest  {
         page.navigate("https://the-internet.herokuapp.com/javascript_alerts",
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         String actualText = page.locator("h3").textContent();
-        Assertions.assertEquals("JavaScript Alerts", actualText, "Текст заголовка не совпадает");
+        Assertions.assertEquals("JavaScript Alerts", actualText, "Текст заголовка не соответствует ожидаемому");
 
-        logExtent(Status.INFO, "Страница с алертами загружена");
+        logExtent(Status.INFO, "Страница с alerts загружена");
     }
 
     @Step("Обработать JS Alert (сообщение: {0})")
