@@ -1,7 +1,6 @@
-name: Run Allure Report Test
+name: Run Allure & ExtentReports Test
 
 on: [push, pull_request]
-
 
 jobs:
   report-test:
@@ -44,8 +43,13 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run tests and generate Allure results
-        run: mvn test -Dtest=CheckboxTest -Dallure.report.directory=target/allure-results
+      - name: Run tests and generate Allure + ExtentReports results
+        run: |
+          # Убедиться, что в pom.xml прописаны зависимости для ExtentReports
+          mvn test \
+            -Dtest=CheckboxTest \
+            -Dallure.report.directory=target/allure-results \
+            -Dextent.report.directory=target/extent-reports
 
       - name: Install Allure CLI
         run: |
@@ -74,6 +78,26 @@ jobs:
           name: allure-report
           path: allure-report.zip
           retention-days: 30
+
+      - name: Generate ExtentReports report
+        run: |
+          if [ ! -d "target/extent-reports" ]; then
+            echo "❌ Error: ExtentReports results directory not found!"
+            exit 1
+          fi
+          # Предполагаем, что ExtentReports генерирует HTML автоматически при запуске тестов
+          # Если нужна дополнительная генерация — добавьте соответствующие команды
+
+      - name: Archive ExtentReports as ZIP
+        run: zip -r extent-report.zip target/extent-reports/
+
+      - name: Upload ExtentReports artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report
+          path: extent-report.zip
+          retention-days: 30
+
 
 
 
