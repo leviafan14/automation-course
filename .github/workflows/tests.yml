@@ -1,4 +1,4 @@
-name: Run Allure, ExtentReports and Tracing Test
+name: Run tracing test
 
 on: [push, pull_request]
 
@@ -43,29 +43,28 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Create trace directory
+        run: mkdir -p trace
+
       - name: Run tests with tracing enabled
-        run: |
-          mvn test \
-            -Dtest=DynamicLoadingTraceTest 
+        run: mvn test -Dtest=DynamicLoadingTest
 
-      - name: Verify trace files exist
+      - name: Verify trace file exists
         run: |
-          if [ ! -f "trace-dynamic-loading.zip" ]; then
-            echo "Warning: Trace file not found (trace-dynamic-loading.zip)"
-            touch trace-dynamic-loading.zip  # Создаём пустой файл для избежания ошибки
+          if [ ! -f "trace/trace-success.zip" ]; then
+            echo "Ошибка: файл трассировки не создан!"
+            exit 1
           else
-            echo "Trace file found: trace-dynamic-loading.zip"
+            echo "Трассировка успешно создана: trace/trace-success.zip"
           fi
-
-      - name: Archive trace files as ZIP
-        run: zip -r trace-report.zip trace-dynamic-loading.zip
 
       - name: Upload trace artifact
         uses: actions/upload-artifact@v4
         with:
-          name: trace-report
-          path: trace-report.zip
+          name: playwright-trace
+          path: trace/trace-success.zip
           retention-days: 30
+
 
 
 
