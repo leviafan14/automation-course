@@ -37,19 +37,18 @@ public class DynamicLoadingTest {
             }
         });
 
-        // Кликаем по кнопке запуска загрузки
+        // Клик по кнопке запуска загрузки
         page.click("button");
 
-        // Дожидаемся появления текста "Hello World!" с таймаутом 10 секунд
+        // Ожидание появления текста с таймаутом 10 секунд
         Locator finishText = page.locator("#finish:has-text('Hello World!')");
         finishText.waitFor(new Locator.WaitForOptions().setTimeout(10000));
-        // Проверяем, что элемент содержит текст
 
-        // Проверяем текст
+        // Тест соответствия текста
         String textContent = finishText.innerText();
         Assertions.assertEquals("Hello World!", textContent, "Текст не совпадает с ожидаемым!");
 
-        // Сохраняем трассировку выполнения
+        // Сохранение трассировки выполнения
         context.tracing().stop(new Tracing.StopOptions().setPath(Paths.get("trace/trace-success.zip")));
         System.out.println("Трассировка сохранена в trace/trace-success.zip");
     }
