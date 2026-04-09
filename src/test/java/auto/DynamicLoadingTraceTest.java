@@ -33,7 +33,7 @@ public class DynamicLoadingTraceTest {
         // Шаги теста
         page.navigate("https://the-internet.herokuapp.com/dynamic_loading/1");
         page.click("button");
-
+        // Получение элемента по селектору
         Locator finishBlock = page.locator("#finish");
 
         // Ожидание появления элемента
