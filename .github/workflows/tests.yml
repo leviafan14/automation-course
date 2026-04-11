@@ -47,23 +47,8 @@ jobs:
         run: mkdir -p trace
 
       - name: Run tests with tracing enabled
-        run: mvn test -Dtest=DynamicLoadingTest
+        run: mvn test -Dtest=TodoApiTest
 
-      - name: Verify trace file exists
-        run: |
-          if [ ! -f "trace/trace-success.zip" ]; then
-            echo "Ошибка: файл трассировки не создан!"
-            exit 1
-          else
-            echo "Трассировка успешно создана: trace/trace-success.zip"
-          fi
-
-      - name: Upload trace artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-trace
-          path: trace/trace-success.zip
-          retention-days: 30
 
 
 
