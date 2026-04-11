@@ -41,7 +41,7 @@ public class TodoApiTest {
         // Проверяем, что массив не пустой
         assertFalse(jsonResponse.isEmpty(), "Массив пуст");
 
-        // Берём первый элемент массива для проверки структуры
+        // Первый элемент массива для проверки структуры
         JsonNode firstItem = jsonResponse.get(0);
 
         // 4. Проверка структуры JSON
