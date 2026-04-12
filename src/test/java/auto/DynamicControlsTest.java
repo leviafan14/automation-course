@@ -14,7 +14,7 @@ public class DynamicControlsTest {
     @BeforeEach
     void setUp() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = playwright.chromium().launch();
         page = browser.newPage();
     }
 
