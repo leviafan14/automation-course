@@ -47,7 +47,7 @@ public class MobileDynamicControlsTest {
                 .setTimeout(10000));
 
         // Проверка, что поле стало активным после нажатия на кнопку
-        Assertions.assertTrue(inputField.isEnabled(), "Поле не стало активным");
+        Assertions.assertTrue(inputField.isEnabled(), "Поле не стало активным после нажатия");
     }
 
     @AfterEach
