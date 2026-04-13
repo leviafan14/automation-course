@@ -4,7 +4,7 @@ import com.microsoft.playwright.BrowserType;
 import org.junit.jupiter.api.Test;
 import pages.DragDropPage;
 import com.microsoft.playwright.Playwright;
-import com.microsoft.playwright.Page; // Вместо ChromiumPage используем Page
+import com.microsoft.playwright.Page;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
