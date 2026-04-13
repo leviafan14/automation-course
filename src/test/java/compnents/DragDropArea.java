@@ -17,7 +17,7 @@ public class DragDropArea {
         elementA.dragTo(elementB);
     }
 
-    // Получение текста из зоны "B" для верификации
+    // Получение текста из зоны B для верификации
     public String getTextB() {
         return page.locator("#column-b").textContent();
     }
