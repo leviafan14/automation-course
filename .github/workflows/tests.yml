@@ -47,7 +47,7 @@ jobs:
         run: mkdir -p trace
 
       - name: Run tests with tracing enabled
-        run: mvn test -Dtest=DynamicControlsTest
+        run: mvn test -Dtest=DragDropTest
 
 
 
