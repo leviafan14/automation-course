@@ -10,7 +10,7 @@ public class DragDropArea {
         this.page = page;
     }
 
-    // Метод перетаскивания элемента "A" в зону "B"
+    // Метод перетаскивания элемента A в зону B
     public void dragAToB() {
         Locator elementA = page.locator("#column-a");
         Locator elementB = page.locator("#column-b");
