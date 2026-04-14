@@ -1,4 +1,4 @@
-name: Run tracing test
+name: Run test
 
 on: [push, pull_request]
 
@@ -47,7 +47,7 @@ jobs:
         run: mkdir -p trace
 
       - name: Run tests with tracing enabled
-        run: mvn test -Dtest=DragDropTest
+        run: mvn test -Dtest=FakerGenerTest
 
 
 
