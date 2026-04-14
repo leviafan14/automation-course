@@ -4,13 +4,15 @@ import com.github.javafaker.Faker;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class FakerGenerTest {
-    public static void main(String[] args) {
+    @Test
+    void testByFakeData(){
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.chromium().launch();
             BrowserContext context = browser.newContext();
