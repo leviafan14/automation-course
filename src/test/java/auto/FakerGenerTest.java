@@ -3,41 +3,16 @@ package auto;
 import com.github.javafaker.Faker;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
-import com.microsoft.playwright.options.LoadState;
-import com.microsoft.playwright.options.WaitForSelectorState;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.javafaker.Faker;
-import com.microsoft.playwright.*;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.github.javafaker.Faker;
-import com.microsoft.playwright.*;
-
-import com.github.javafaker.Faker;
-import com.microsoft.playwright.*;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.github.javafaker.Faker;
-import com.microsoft.playwright.*;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.github.javafaker.Faker;
-import com.microsoft.playwright.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FakerGenerTest {
     public static void main(String[] args) {
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(
-                    new BrowserType.LaunchOptions().setHeadless(false));
+            Browser browser = playwright.chromium().launch();
             BrowserContext context = browser.newContext();
             Page page = context.newPage();
 
