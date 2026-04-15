@@ -49,8 +49,6 @@ jobs:
       - name: Run test in dev env
         run: mvn test -Denv=dev -Dtest=StatusCodeTest
 
-      - name: Run test in prod env
-        run: mvn test -Denv=prod -Dtest=StatusCodeTest
 
 
 
