@@ -60,7 +60,7 @@ public class CheckboxTest {
     @Step("Изменение состояния чекбоксов")
     private void toggleCheckboxes() {
 
-        // Отмечаем первый чекбокс
+        // Отмечаем первый чекбокс``
         page.locator("input[type='checkbox']:first-child").check();
         Allure.step("Первый чекбокс отмечен");
 

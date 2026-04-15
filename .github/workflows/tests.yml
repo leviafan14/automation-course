@@ -46,9 +46,11 @@ jobs:
       - name: Create trace directory
         run: mkdir -p trace
 
-      - name: Run tests with tracing enabled
-        run: mvn test -Dtest=DynamicControlsTest
+      - name: Run test in dev env
+        run: mvn test -Denv=dev -Dtest=StatusCodeTest
 
+      - name: Run test in prod env
+        run: mvn test -Denv=prod -Dtest=StatusCodeTest
 
 
 

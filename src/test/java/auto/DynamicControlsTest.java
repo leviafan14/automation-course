@@ -23,14 +23,14 @@ public class DynamicControlsTest {
 
     @Test
     public void testCheckboxRemoval() {
-        // Чекбокс изначально виден
+        // Проверяем, что чекбокс изначально виден
         controlsPage.waitForCheckboxState(true);
         assertTrue(controlsPage.isCheckboxVisible(), "Чекбокс должен быть изначально виден");
 
-        // Нажатие на кнопку Remove
+        // Нажимаем кнопку Remove
         controlsPage.clickRemoveButton();
 
-        //Ожидание скрытия чекбокса
+        // Ждём скрытия чекбокса и проверяем
         controlsPage.waitForCheckboxState(false);
         assertFalse(controlsPage.isCheckboxVisible(), "Чекбокс должен исчезнуть после нажатия кнопки Remove");
     }
