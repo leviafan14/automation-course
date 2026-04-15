@@ -9,7 +9,7 @@ public class TestContext {
 
     public TestContext() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+        browser = playwright.chromium().launch();
         page = browser.newPage();
     }
 
