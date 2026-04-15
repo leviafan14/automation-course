@@ -13,10 +13,7 @@ public class BrowserManager {
     }
 
     public Browser createBrowser() {
-        return Playwright.create().chromium().launch(
-                new BrowserType.LaunchOptions()
-                        .setHeadless(Boolean.parseBoolean(System.getenv("HEADLESS")))
-        );
+        return Playwright.create().chromium().launch();
     }
 }
 
