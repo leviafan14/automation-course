@@ -77,7 +77,7 @@ public class StatusCodeCombinedTest {
                     String.format("a[href*='status_codes/%d']", code)
             ).first();
 
-            // Перехват ответа перед кликом
+            // Перехват ответа перед кликом на ссылку
             Response response = page.waitForResponse(
                     res -> res.url().endsWith("/status_codes/" + code),
                     () -> link.click(new Locator.ClickOptions().setTimeout(10000))
