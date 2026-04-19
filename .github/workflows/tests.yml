@@ -47,7 +47,7 @@ jobs:
         run: mkdir -p trace
 
       - name: Run test in dev env
-        run: mvn test -Denv=dev -Dtest=StatusCodeCombinedTest
+        run: mvn test -Dtest=LoginDbTest
 
 
 
