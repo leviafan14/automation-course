@@ -22,9 +22,10 @@ jobs:
       - name: Run tests with debug
         run: |
           docker run --rm \
-              --shm-size=2g \  # Увеличение shared memory
-              -e BASE_URL=https://the-internet.herokuapp.com \
-              -v ${PWD}/test.txt:/app/test.txt \
-              playwright-junit-test \
-              mvn test -D"test=CheckboxTest"
+          --shm-size=2g \
+          -e BASE_URL=https://the-internet.herokuapp.com \
+          -v ${PWD}/test.txt:/app/test.txt \
+          playwright-junit-test \
+          mvn test -D"test=CheckboxTest"
+
 
