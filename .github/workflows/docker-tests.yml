@@ -6,7 +6,7 @@ on:
     paths:
       - 'Dockerfile'
       - 'docker-compose.yml'
-      - 'src/test/java/docker/CheckboxTest.java'
+      - 'src/test/java/auto/CheckboxTest.java'
 
 jobs:
   docker-tests:
