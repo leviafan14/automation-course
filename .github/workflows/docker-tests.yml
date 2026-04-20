@@ -1,0 +1,30 @@
+name: Docker Tests
+
+on:
+  workflow_dispatch:  # Ручной запуск
+  push:
+    paths:
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'src/test/java/docker/CheckboxTest.java'
+
+jobs:
+  docker-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Сборка Docker-образа
+      - name: Build Docker image
+        run: docker build -t playwright-junit-test .
+
+      # Запуск теста в контейнере
+      - name: Run tests with debug
+        run: |
+          docker run --rm \
+              --shm-size=2g \  # Увеличение shared memory
+              -e BASE_URL=https://the-internet.herokuapp.com \
+              -v ${PWD}/test.txt:/app/test.txt \
+              playwright-junit-test \
+              mvn test -Dtest=CheckboxTest -e 
+
