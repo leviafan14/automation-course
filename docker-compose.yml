@@ -4,4 +4,4 @@ services:
     build: .
     environment:
       - BASE_URL=https://the-internet.herokuapp.com
-    command: mvn test -Dtest=CheckboxTest
+    command: mvn test -D"test=CheckboxTest"
