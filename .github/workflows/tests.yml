@@ -46,9 +46,9 @@ jobs:
         run: mkdir -p trace
 
       - name: Run test and generate report
-        run: mvn test -Dtest=TestLoginPerformance
+        run: mvn test -Dtest=LoginTest
 
-      - name: Debug: check report structure
+      - name: check report structure
         run: |
           echo "Папка test-reports существует:"
           ls -la test-reports/ 2>/dev/null || echo "Нет папки test-reports"
