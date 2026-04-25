@@ -5,7 +5,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+// Практическое задание №31 - тест до рефакторинга
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.IOException;
