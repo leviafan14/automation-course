@@ -12,6 +12,14 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.IOException;
 
+/**
+ * Набор тестов для проверки авторизации в системе https://the-internet.herokuapp.com/login
+ * Для тестов используются:
+ * /src/main/java/AuthTestConfig.java - получение данных из login.properties
+ * /src/test/resources/login.properties - набор свойств для запуска тестов
+ * /src/test/java/auto/AuthHelper.java - содержит структуру POM страницы /login
+ **/
+
 public class LoginTest {
     Page page;
     AuthHelper authHelper;
@@ -32,8 +40,12 @@ public class LoginTest {
         page = context.newPage();
     }
 
+    /**
+     * Тест Проверяет авторизацию в системе с валидной парой логин - пароль
+     * - Валидный логин пароль указаны в login.properites
+     */
     @Test
-    @DisplayName("Авторизация с валидным логином и валидным паролем")
+    @DisplayName("Тест авторизации с валидной парой логин - пароль")
     @Tag("Positive")
     public void testValidLoginInSite() throws IOException {
         boolean isContainSecure = false;
@@ -61,9 +73,13 @@ public class LoginTest {
         }
     }
 
+    /**
+     * Негативный Тест с параметрами. Проверяет авторизацию в системе с невалидными значениями пары логин - пароль
+     * Невалидные пары берутся из источника @CsvSource
+     */
     @ParameterizedTest
     @CsvSource({"tomsmith, SuperSecretPassword", "tomsmtit, SuperSecretPassword!", "tom,SuperSecretPassword"})
-    @DisplayName("Негативный тест. Авторизация с невалидными данными")
+    @DisplayName("Тест авторизации с набором невалидных пар логин - пароль")
     @Tag("Negative")
     public void testInvalidLoginInSite(String login, String password) throws IOException {
         try {
