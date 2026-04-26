@@ -34,7 +34,7 @@ public class BaseLoginTest {
 
     @BeforeMethod
     public void setup() {
-        browser = playwright.chromium().launch();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
         try {
             Files.createDirectories(REPORT_DIR);
             Files.createDirectories(SCREENSHOTS_DIR);
@@ -54,36 +54,6 @@ public class BaseLoginTest {
 
         System.out.println("Скриншот сохранён: " + screenshotPath);
         return screenshotPath.toString();
-    }
-    @AfterClass
-    public void generateReport() throws IOException {
-        StringBuilder html = new StringBuilder();
-        html.append("<html><head><title>Test Report</title></head><body>");
-        html.append("<h1>Test Results</h1>");
-        html.append("<table border='1'>");
-        html.append("<tr><th>Test Name</th><th>Status</th><th>Duration (ms)</th><th>Screenshot</th><th>Error</th></tr>");
 
-        for (TestResult result : results) {
-            html.append("<tr>");
-            html.append("<td>" + result.testName + "</td>");
-            html.append("<td style='color:" + (result.status.equals("PASSED") ? "green" : "red") + "'>" + result.status + "</td>");
-            html.append("<td>" + result.duration + "</td>");
-
-            if (result.screenshotPath != null) {
-                html.append("<td><img src='" + result.screenshotPath + "' width='300'></td>");
-            } else {
-                html.append("<td>-</td>");
-            }
-
-            html.append("<td>" + (result.errorMessage != null ? result.errorMessage : "-") + "</td>");
-            html.append("</tr>");
-        }
-
-        html.append("</table></body></html>");
-
-        // Сохраняем HTML-файл
-        Path reportFile = REPORT_DIR.resolve("report.html");
-        Files.writeString(reportFile, html.toString());
-        System.out.println("Отчёт сгенерирован: " + reportFile);
     }
 }
